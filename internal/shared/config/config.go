@@ -9,6 +9,7 @@ import (
 type Config struct {
 	OAuthClientID     string `yaml:"oauth_client_id"`
 	OAuthClientSecret string `yaml:"oauth_client_secret"`
+	JWTSecretKey      string `yaml:"jwt_secret_key"`
 	// More configuration parameters
 }
 
