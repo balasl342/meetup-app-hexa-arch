@@ -51,8 +51,7 @@ func main() {
 	// Initialize router
 	router := http.NewRouter(userHandler, nil, nil, authService, nil) // Pass other handlers as needed
 
-	// Start the server (this will depend on your chosen web framework)
+	// Start the server
 	fmt.Println("Starting Meetings App...")
 	log.Fatal(apphtpp.ListenAndServe(":8080", router))
-	// More logic for server setup
 }
