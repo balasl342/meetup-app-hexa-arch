@@ -9,6 +9,7 @@ import (
 	"meetup-app-hexa-arch/internal/adapters/http/handlers"
 	"meetup-app-hexa-arch/internal/core/user"
 	"meetup-app-hexa-arch/internal/shared/config"
+	"meetup-app-hexa-arch/webhooks"
 	apphtpp "net/http"
 	"time"
 
@@ -48,8 +49,11 @@ func main() {
 	// Initialize handlers
 	userHandler := handlers.NewUserHandler(userService)
 
+	// Initialize webhook handler
+	webhookHandler := webhooks.NewWebhookHandler()
+
 	// Initialize router
-	router := http.NewRouter(userHandler, nil, nil, authService, nil) // Pass other handlers as needed
+	router := http.NewRouter(userHandler, nil, nil, authService, webhookHandler) // Pass other handlers as needed
 
 	// Start the server
 	fmt.Println("Starting Meetings App...")
