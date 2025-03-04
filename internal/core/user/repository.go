@@ -40,3 +40,31 @@ func (r *MongoDBUserRepository) GetByEmail(ctx context.Context, email string) (*
 	}
 	return &user, nil
 }
+
+// GetByID retrieves a user by their ID.
+func (r *MongoDBUserRepository) GetByID(ctx context.Context, id string) (*User, error) {
+	var user User
+	filter := bson.D{{Key: "_id", Value: id}}
+	err := r.collection.FindOne(ctx, filter).Decode(&user)
+	if err == mongo.ErrNoDocuments {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
+// Update updates a user's information.
+func (r *MongoDBUserRepository) Update(ctx context.Context, user *User) error {
+	filter := bson.D{{Key: "_id", Value: user.ID}}
+	update := bson.D{
+		{Key: "$set", Value: bson.D{
+			{Key: "name", Value: user.Name},
+			{Key: "email", Value: user.Email},
+			{Key: "photo", Value: user.Photo},
+		}},
+	}
+	_, err := r.collection.UpdateOne(ctx, filter, update)
+	return err
+}
